@@ -160,7 +160,10 @@ The following standard commands are supported:
 - `TURN_OFF_HEATERS`: Turn off all heaters.
 - `TEMPERATURE_WAIT SENSOR=<config_name> [MINIMUM=<target>] [MAXIMUM=<target>]`:
   Wait until the given temperature sensor is at or above the supplied
-  MINIMUM and/or at or below the supplied MAXIMUM.
+  MINIMUM and/or at or below the supplied MAXIMUM. SENSOR needs to be fully 
+  qualified.  if heater generic named bed2 is used then 
+  TEMPERATURE_WAIT SENSOR="heater_generic bed2" MINIMUM=50. !!WARNING
+  do not see this without setting the teperature.
 - `SET_VELOCITY_LIMIT [VELOCITY=<value>] [ACCEL=<value>]
   [ACCEL_TO_DECEL=<value>] [SQUARE_CORNER_VELOCITY=<value>]`: Modify
   the printer's velocity limits.
@@ -170,7 +173,7 @@ The following standard commands are supported:
 - `SYNC_HEATER_TEMPERATURE HEATER=<heater_name> [TO=<heater_name>]
   [OFFSET_TEMP=<value>]`: Synchronize heaters temperatures with an optional
   offset. The follower heater will reach the offsetted temperature prior to the
-  synchronisation is active. To unsynchronize an heater, omits the TO parameter.
+  synchronisation is active. To unsynchronize an heater, omit the TO parameter.
 - `ACTIVATE_EXTRUDER EXTRUDER=<config_name>`: In a printer with
   multiple extruders this command is used to change the active
   extruder.
