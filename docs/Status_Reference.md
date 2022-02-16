@@ -28,6 +28,12 @@ The following information is available in the `configfile` object
   setting as read by Klipper during the last software start or
   restart. (Any settings changed at run-time will not be reflected
   here.) All values are returned as strings.
+- `save_config_pending`: Returns true if there are updates that a
+  `SAVE_CONFIG` command may persist to disk.
+- `warnings`: A list of warnings about config options. Each entry in
+  the list will be a dictionary containing a `type` and `message`
+  field (both strings). Additional fields may be available depending
+  on the type of warning.
 
 ## display_status
 
@@ -132,7 +138,8 @@ The following information is available in the
 [hall_filament_width_sensor](Config_Reference.md#hall_filament_width_sensor)
 object:
 - `is_active`: Returns True if the sensor is currently active.
-- `Diameter`, `Raw`: The last read values from the sensor.
+- `Diameter`: The last reading from the sensor in mm.
+- `Raw`: The last raw ADC reading from the sensor.
 
 ## heater
 
@@ -312,6 +319,23 @@ objects:
   temperature seen by the sensor since the Klipper host software was
   last restarted.
 
+## tmc drivers
+
+The following information is available in
+[TMC stepper driver](Config_Reference.md#tmc-stepper-driver-configuration)
+objects (eg, `[tmc2208 stepper_x]`):
+- `mcu_phase_offset`: The micro-controller stepper position
+  corresponding with the driver's "zero" phase. This field may be null
+  if the phase offset is not known.
+- `phase_offset_position`: The "commanded position" corresponding to
+  the driver's "zero" phase. This field may be null if the phase
+  offset is not known.
+- `drv_status`: The results of the last driver status query. (Only
+  non-zero fields are reported.) This field will be null if the driver
+  is not enabled (and thus is not periodically queried).
+- `run_current`: The currently set run current.
+- `hold_current`: The currently set hold current.
+
 ## toolhead
 
 The following information is available in the `toolhead` object
@@ -374,10 +398,11 @@ object is available if z_tilt is defined):
   successfully.
 
 ## neopixel / dotstar
+
 The following information is available for each `[neopixel led_name]` and
 `[dotstar led_name]` defined in printer.cfg:
 - `color_data`:  An array of objects, with each object containing the RGBW
   values for a led in the chain.  Note that not all configurations will contain
   a white value.  Each value is represented as a float from 0 to 1.  For
   example, the blue value of the second neopixel in a chain could be accessed
-  at `printer["neopixel <config_name>"].colordata[1].B`.
+  at `printer["neopixel <config_name>"].color_data[1].B`.
